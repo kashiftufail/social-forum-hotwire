@@ -5,5 +5,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   validates :username, presence: true, uniqueness: true
-        
+
+  has_many :forum_discussions, class_name: "forum_discussions", dependent: :destroy
+
 end
