@@ -1,0 +1,12 @@
+<div id="<%= dom_id(discussion) %>" class="mb-2">
+  <h2><%= discussion.name %></h2>
+  Opened: <%= discussion.opened %> | Closed: <%= discussion.closed %>
+</div>
+
+<div>
+  <%= link_to "Edit Discussion", edit_discussion_path(discussion) %> |
+  
+  <%= link_to "Delete", discussion, method: :delete, data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' } %>
+
+
+</div>

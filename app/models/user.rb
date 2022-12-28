@@ -6,6 +6,6 @@ class User < ApplicationRecord
 
   validates :username, presence: true, uniqueness: true
 
-  has_many :forum_discussions, class_name: "forum_discussions", dependent: :destroy
+  has_many :discussions, dependent: :destroy
 
 end
