@@ -1,5 +1,6 @@
 <div id="<%= dom_id(discussion) %>" class="mb-2">
-  <h2><%= discussion.name %></h2>
+    <h2><%= link_to discussion.name, discussion %></h2>
+
   Opened: <%= discussion.opened %> | Closed: <%= discussion.closed %>
 </div>
 

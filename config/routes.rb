@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   # get 'home/index'
   devise_for :users
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
-  resources :discussions , only: [:index, :create, :new, :edit, :update,:destroy]
+  resources :discussions , only: [:index, :create, :new, :edit, :update,:destroy,:show]
   
   # Defines the root path route ("/")
   root "home#index"

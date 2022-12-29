@@ -1,6 +1,6 @@
 class DiscussionsController < ApplicationController
  
-  before_action :set_discussion, only: [:edit, :destroy, :update]
+  before_action :set_discussion, only: [:show ,:edit, :destroy, :update]
 
   before_action :authenticate_user!  
 
@@ -12,12 +12,15 @@ class DiscussionsController < ApplicationController
     @discussion = Discussion.new
   end
 
+  def show
+  end  
+
   def create
     @discussion = Discussion.new(discussion_params)
 
     respond_to do |format|
       if @discussion.save
-        format.html { redirect_to discussions_path, notice: "Discussion created" }
+        format.html { redirect_to @discussion, notice: "Discussion created" }
       else
         format.html { render :new, status: :unprocessable_entity }
       end
@@ -30,7 +33,7 @@ class DiscussionsController < ApplicationController
   def update
     respond_to do |format|
       if @discussion.update(discussion_params)
-        format.html { redirect_to discussions_path, notice: "Discussion updated" }
+        format.html { redirect_to @discussion, notice: "Discussion updated" }
       else
         format.html { render :edit, status: :unprocessable_entity }
       end
