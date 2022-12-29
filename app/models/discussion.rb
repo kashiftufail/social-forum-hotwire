@@ -1,5 +1,7 @@
 class Discussion < ApplicationRecord
   
+  has_many :articles, dependent: :destroy
+
   belongs_to :user, default: -> { Current.user }
 
   validates :name , presence:  true
