@@ -10,6 +10,7 @@ class DiscussionsController < ApplicationController
 
   def new
     @discussion = Discussion.new
+    @discussion.articles.new
   end
 
   def show
@@ -19,6 +20,9 @@ class DiscussionsController < ApplicationController
     @discussion = Discussion.new(discussion_params)
 
     respond_to do |format|
+      
+      
+      
       if @discussion.save
         format.html { redirect_to @discussion, notice: "Discussion created" }
       else
@@ -49,7 +53,7 @@ class DiscussionsController < ApplicationController
   private
 
   def discussion_params
-    params.require(:discussion).permit(:name, :closed, :opened)
+    params.require(:discussion).permit(:name, :closed, :opened,articles_attributes: :content)
   end
 
   def set_discussion

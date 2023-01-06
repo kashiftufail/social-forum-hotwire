@@ -12,7 +12,7 @@
 
   <div class="mb-3">
     <%= form.label :name, class: "form-label" %>
-    <%= form.text_field :name, placeholder: "some awesome discussion?", class: "form-control" %>
+    <%= form.text_field :name, placeholder: "some awesome discussionss?", class: "form-control" %>
   </div>
 
   <div class="mb-3">
@@ -24,6 +24,17 @@
     <%= form.label :closed, class: "form-label" %>
     <%= form.check_box :closed %>
   </div>
+
+
+
+  <% if discussion.new_record? %>
+    <%= form.fields_for :articles do |p| %>
+      <div class="mb-3">
+        <%= p.rich_text_area :content, placeholder: "article body 4 discussion" %>
+        
+      </div>
+    <% end %>
+  <% end %>
 
   <div class="mb-3">
     <%= form.submit class: "btn btn-primary" %>
