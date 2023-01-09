@@ -1,0 +1,3 @@
+<%= turbo_stream.replace "new_article_form" do %>
+  <%= render partial: "discussions/articles/form", formats: :html, locals: { article: @article } %>
+<% end %>

@@ -14,6 +14,7 @@ class DiscussionsController < ApplicationController
   end
 
   def show
+    @new_article = @discussion.articles.new
   end  
 
   def create
