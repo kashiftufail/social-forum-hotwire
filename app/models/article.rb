@@ -9,4 +9,6 @@ class Article < ApplicationRecord
 
   validates :content , presence: true
 
+  after_create_commit -> { broadcast_append_to discussion, partial: "discussions/articles/article", locals: { article: self }}
+
 end
