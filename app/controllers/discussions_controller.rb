@@ -14,6 +14,8 @@ class DiscussionsController < ApplicationController
   end
 
   def show
+    @articles = @discussion.articles.all.order(created_at: :asc)
+
     @new_article = @discussion.articles.new
   end  
 

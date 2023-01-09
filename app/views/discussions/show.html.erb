@@ -3,6 +3,16 @@
 <%= render(partial: "discussions/header", locals: { discussion: @discussion }) %>
 
 
+<div class="mt-4">
+  <%= render partial: "discussions/articles/article", collection: @articles %>
+</div>
+
+
+
+
+
 <div id="<%= dom_id(@new_article) %>">
   <%= render("discussions/articles/form", article: @new_article) %>
 </div>
+
+
