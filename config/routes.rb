@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
   resources :discussions , only: [:index, :create, :new, :edit, :update,:destroy,:show] do
   
-    resources :articles, only: [:create, :show, :edit, :update] , module: :discussions
+    resources :articles, only: [:create, :show, :edit, :update, :destroy] , module: :discussions
 
   end
   

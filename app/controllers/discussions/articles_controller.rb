@@ -2,7 +2,7 @@ module Discussions
     class ArticlesController < ApplicationController
       before_action :authenticate_user!
       before_action :set_discussion
-      before_action :set_article, only: [:show, :edit, :update]
+      before_action :set_article, only: [:show, :edit, :update,:destroy]
 
   
       def create
@@ -31,6 +31,16 @@ module Discussions
           else
             format.html { render :edit, status: :unprocessable_entity }
           end
+        end
+      end
+
+      def destroy
+        
+        @article.destroy
+  
+        respond_to do |format|
+          format.turbo_stream { }
+          format.html { redirect_to @article.discussion, notice: "article deleted" }
         end
       end
   

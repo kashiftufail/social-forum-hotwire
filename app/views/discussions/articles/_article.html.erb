@@ -11,6 +11,8 @@
 
   <div class="card-footer">
     <%= link_to "Edit", edit_discussion_article_path(article.discussion, article), data: { turbo_frame: dom_id(article) } %>
+        |  <%= link_to "Delete", discussion_article_path(article.discussion, article), data: { turbo_method: :delete } %>
+
   </div>
 
 
