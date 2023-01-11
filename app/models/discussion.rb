@@ -2,6 +2,9 @@ class Discussion < ApplicationRecord
   
   has_many :articles, dependent: :destroy
 
+  belongs_to :category, counter_cache: true, touch: true
+
+
   belongs_to :user, default: -> { Current.user }
 
   validates :name , presence:  true

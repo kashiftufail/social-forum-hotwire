@@ -12,7 +12,14 @@
 
   <div class="mb-3">
     <%= form.label :name, class: "form-label" %>
-    <%= form.text_field :name, placeholder: "some awesome discussionss?", class: "form-control" %>
+    <%= form.text_field :name, placeholder: "some awesome words...", class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :category_id, "Choose a category", class: "form-label" %>
+    <%= form.collection_select :category_id, Category.sorted, :id, :name,
+      { include_blank: "Pick a category" },
+      { autofocus: false, class: "form-control" } %>
   </div>
 
   <div class="mb-3">
