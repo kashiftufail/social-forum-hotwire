@@ -2,6 +2,8 @@ module Discussions
     class ArticlesController < ApplicationController
       before_action :authenticate_user!
       before_action :set_discussion
+      before_action :set_article, only: [:show, :edit, :update]
+
   
       def create
         @article = @discussion.articles.new(article_params)
@@ -15,8 +17,28 @@ module Discussions
           end
         end
       end
+
+      def show
+      end
+  
+      def edit
+      end
+  
+      def update
+        respond_to do |format|
+          if @article.update(article_params)
+            format.html { redirect_to @article.discussion, notice: "article update" }
+          else
+            format.html { render :edit, status: :unprocessable_entity }
+          end
+        end
+      end
   
       private
+
+      def set_article
+        @article = @discussion.articles.find(params[:id])
+      end
   
       def set_discussion
         @discussion = Discussion.find(params[:discussion_id])

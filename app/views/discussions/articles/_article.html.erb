@@ -1,3 +1,5 @@
+<%= turbo_frame_tag dom_id(article) do %>
+
 <div class="card my-4">
   <div class="card-body">
    <h4 class="card-title"><%= article.user.username %></h4>
@@ -6,4 +8,13 @@
     
     <%= article.content %>
   </div>
+
+  <div class="card-footer">
+    <%= link_to "Edit", edit_discussion_article_path(article.discussion, article), data: { turbo_frame: dom_id(article) } %>
+  </div>
+
+
+
 </div>
+
+<% end %>
