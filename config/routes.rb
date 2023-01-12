@@ -7,6 +7,10 @@ Rails.application.routes.draw do
   
     resources :articles, only: [:create, :show, :edit, :update, :destroy] , module: :discussions
 
+    collection do
+      get 'category/:id', to: "categories/discussions#index", as: :category
+    end
+
   end
   
   # Defines the root path route ("/")

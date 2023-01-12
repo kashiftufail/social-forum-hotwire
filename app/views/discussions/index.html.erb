@@ -18,8 +18,11 @@
   </div>
 
   <div class="col">
-    <div id="discussions">
-      <%= render @discussions %>
+    <% if @category %>
+      <h4>Viewing discussions in <%= @category.name %></h4>
+    <% end %>
+    <div id="discussions">      
+      <%= render partial: "discussions/discussion", collection: @discussions%>
     </div>
   </div>
 </div>
