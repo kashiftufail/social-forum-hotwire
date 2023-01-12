@@ -7,6 +7,9 @@ class Discussion < ApplicationRecord
 
   belongs_to :user, default: -> { Current.user }
 
+  delegate :name, prefix: :category, to: :category, allow_nil: true
+
+  
   validates :name , presence:  true
 
   accepts_nested_attributes_for :articles

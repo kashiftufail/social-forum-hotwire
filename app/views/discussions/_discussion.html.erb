@@ -1,7 +1,9 @@
 <div id="<%= dom_id(discussion) %>" class="mb-2">
     <h2><%= link_to discussion.name, discussion %></h2>
 
-  Opened: <%= discussion.opened %> | Closed: <%= discussion.closed %>
+  Opened: <%= discussion.opened %> | Closed: <%= discussion.closed %><br>
+    Posted in: <%= discussion.category.name %> | Articles: <%= discussion.articles_count %>
+
 
 <div>
   <%= link_to "Edit Discussion", edit_discussion_path(discussion) %> |
