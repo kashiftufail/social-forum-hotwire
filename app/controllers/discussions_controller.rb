@@ -5,7 +5,7 @@ class DiscussionsController < ApplicationController
   before_action :authenticate_user!  
 
   def index
-    @discussions = Discussion.all.order(updated_at: :desc)
+    @discussions = Discussion.all.display_opened_first
   end 
 
   def new

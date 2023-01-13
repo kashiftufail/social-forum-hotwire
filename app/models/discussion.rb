@@ -14,6 +14,7 @@ class Discussion < ApplicationRecord
 
   accepts_nested_attributes_for :articles
 
+  scope :display_opened_first, -> { order(opened: :desc, updated_at: :desc) }
   
   broadcasts_to :category, inserts_by: :prepend
 
