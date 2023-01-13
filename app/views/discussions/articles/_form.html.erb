@@ -1,26 +1,34 @@
 <%= turbo_frame_tag "#{dom_id(article)}_form", target: "_top" do %>
-  <%= form_with(model: [article.discussion, article]) do |form| %>
-    <% if article.errors.any? %>
-      <div id="error_explantion">
-        <h2>
-          <%= pluralize(article.errors.count, "error") %>
-          prohibited this article from being saved:
-        </h2>
-        <ul>
-          <% article.errors.each do |error| %>
-            <li><%= error.full_message %></li>
-          <% end %>
-        </ul>
+  <% if article.discussion.closed? && article.new_record? %>
+    <div class="alert alert-secondary fw-bold" role="alert">
+      This discussion is currently locked and new articles cannot be posted.
+    </div>
+
+  <% else %>
+
+    <%= form_with(model: [article.discussion, article]) do |form| %>
+      <% if article.errors.any? %>
+        <div id="error_explantion">
+          <h2>
+            <%= pluralize(article.errors.count, "error") %>
+            prohibited this article from being saved:
+          </h2>
+          <ul>
+            <% article.errors.each do |error| %>
+              <li><%= error.full_message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <div class="mb-3">
+        <%= form.label :content, class: "visually-hidden form-label" %>
+        <%= form.rich_text_area :content, placeholder: "Add your comment", autofocus: true %>
+      </div>
+
+      <div class="mb-3">
+        <%= form.submit class: "btn btn-primary" %>
       </div>
     <% end %>
-
-    <div class="mb-3">
-      <%= form.label :content, class: "visually-hidden form-label" %>
-      <%= form.rich_text_area :content, placeholder: "Add your comment", autofocus: true %>
-    </div>
-
-    <div class="mb-3">
-      <%= form.submit class: "btn btn-primary" %>
-    </div>
   <% end %>
 <% end %>
