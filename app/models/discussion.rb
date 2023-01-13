@@ -15,6 +15,7 @@ class Discussion < ApplicationRecord
   accepts_nested_attributes_for :articles
 
   
+  broadcasts_to :category, inserts_by: :prepend
 
 
   after_create_commit -> { broadcast_prepend_to 'discussions'}

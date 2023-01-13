@@ -1,4 +1,8 @@
-<%= turbo_stream_from  'discussions'%>
+<% if @category.present? %>
+  <%= turbo_stream_from @category %>
+<% else %>
+  <%= turbo_stream_from 'discussions' %>
+<% end %>
 
 <div class="d-flex justify-content-between align-items-center">
   <h1>Discussions</h1>
