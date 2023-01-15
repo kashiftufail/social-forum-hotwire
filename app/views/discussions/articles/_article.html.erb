@@ -7,16 +7,23 @@
 
     
     <%= article.content %>
-  </div>
+ </div>
 
-  <div class="card-footer">
-    <%= link_to "Edit", edit_discussion_article_path(article.discussion, article), data: { turbo_frame: dom_id(article) } %>
-        |  <%= link_to "Delete", discussion_article_path(article.discussion, article), data: { turbo_method: :delete } %>
+ <% if action_name.nil? %>
+   <%= turbo_frame_tag "article_actions", src: discussion_article_path(article.discussion, article) do %>
+     <div class="card-footer"></div>
+   <% end %>
+ <% else %>
+   <%= turbo_frame_tag "article_actions" do %>
+     <% if Current.user == article.user || Current.user.admin? %>
+       <div class="card-footer mt-2">
+         <%= link_to "Edit", edit_discussion_article_path(article.discussion, article), data: { turbo_frame: dom_id(article) } %> |
+         <%= link_to "Delete", discussion_article_path(article.discussion, article), data: { turbo_method: :delete } %>
 
-  </div>
-
-
-
+       </div>
+     <% end %>
+   <% end %>
+ <% end %>
 </div>
 
 <% end %>
