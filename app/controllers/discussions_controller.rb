@@ -5,7 +5,7 @@ class DiscussionsController < ApplicationController
   before_action :authenticate_user!  
 
   def index
-    @discussions = Discussion.includes(:category).display_opened_first
+    @pagy , @discussions = pagy(Discussion.includes(:category).display_opened_first)
   end 
 
   def new
