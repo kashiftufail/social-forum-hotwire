@@ -5,7 +5,7 @@ class DiscussionsController < ApplicationController
   before_action :authenticate_user!  
 
   def index
-    @discussions = Discussion.all.display_opened_first
+    @discussions = Discussion.includes(:category).display_opened_first
   end 
 
   def new
