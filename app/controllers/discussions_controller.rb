@@ -14,7 +14,7 @@ class DiscussionsController < ApplicationController
   end
 
   def show
-    @articles = @discussion.articles.includes(:user, :rich_text_content).order(created_at: :asc)
+    @pagy , @articles = pagy(@discussion.articles.includes(:user, :rich_text_content).order(created_at: :desc))
 
     @new_article = @discussion.articles.new
   end  
