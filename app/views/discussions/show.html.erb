@@ -9,6 +9,11 @@
 
 <%== pagy_bootstrap_nav(@pagy)  %>
 
+<%= turbo_frame_tag "discussion_notification_status" do %>
+  <%= render("discussions/notifications/status", discussion: @discussion, user: Current.user) %>
+<% end %>
+
+<hr class="my-4">
 
 
 <div id="<%= dom_id(@new_article) %>">
