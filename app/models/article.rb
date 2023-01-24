@@ -1,5 +1,6 @@
 class Article < ApplicationRecord
   
+  has_noticed_notifications  
 
   belongs_to :discussion, counter_cache: true, touch: true
   
