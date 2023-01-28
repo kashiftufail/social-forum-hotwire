@@ -10,6 +10,8 @@ module Discussions
   
         respond_to do |format|
           if @article.save
+            send_article_notification!(@article)
+
             format.html { redirect_to discussion_path(@discussion), notice: "article created" }
           else
             format.turbo_stream
@@ -57,5 +59,11 @@ module Discussions
       def article_params
         params.require(:article).permit(:content)
       end
+
+      def send_article_notification!(article)
+        article_subscribers = article.discussion.subscribed_users - [article.user]
+        NewArticleNotification.with(article: article).deliver_later(article_subscribers)  
+      end  
+
     end
   end
