@@ -1,4 +1,4 @@
-<%= discussions.count %> Results
+<%= discussions.count > 0 ? "#{discussions.count} Results" : "No Results"  %> 
 <% discussions.each do |discussion| %>
   <br>
   <%= link_to discussion do %>
