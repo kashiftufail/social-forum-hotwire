@@ -6,6 +6,8 @@ Rails.application.routes.draw do
   resources :discussions , only: [:index, :create, :new, :edit, :update,:destroy,:show] do
   
     resources :articles, only: [:create, :show, :edit, :update, :destroy] , module: :discussions
+    
+    
 
     collection do
       get 'category/:id', to: "categories/discussions#index", as: :category
@@ -16,6 +18,9 @@ Rails.application.routes.draw do
     
 
   end
+
+  
+  resources :search, only: [:create] 
 
   resources :notifications, only: :index do
     collection do

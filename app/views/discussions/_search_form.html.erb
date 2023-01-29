@@ -1,0 +1,7 @@
+<%= form_with url: search_index_path, method: :post do |form| %>
+  <div class="mb-3 w-75">
+    <%= form.search_field :title_search, value: params[:title_search], placeholder: 'search discussion by name',oninput: "this.form.requestSubmit()" ,  class: "form-control form-control-md"%>    
+  </div>
+<% end %>
+
+<div id="search_results"></div>

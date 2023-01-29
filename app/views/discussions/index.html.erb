@@ -13,6 +13,9 @@
 
 <div class="row mt-4">
 
+ 
+
+ 
  <div class="col-3">
     <%= turbo_stream_from 'categories' %>
     <h5>Categories</h5>
@@ -22,6 +25,8 @@
   </div>
 
   <div class="col">
+
+  <%= render "discussions/search_form" %>
     <% if @category %>
       <h4>Viewing discussions in <%= @category.name %></h4>
     <% end %>

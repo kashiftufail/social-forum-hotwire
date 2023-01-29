@@ -1,0 +1,7 @@
+<%= discussions.count %> Results
+<% discussions.each do |discussion| %>
+  <br>
+  <%= link_to discussion do %>
+    <%= highlight(discussion.name, params.dig(:title_search)) %>
+  <% end %>
+<% end %>
