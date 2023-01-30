@@ -5,7 +5,7 @@ class SearchController < ApplicationController
   def create
 
     if params.dig(:title_search).present?
-      @discussions = Discussion.where('name ILIKE ?', "%#{params[:title_search]}%").order(created_at: :desc)
+      @discussions = Discussion.filter_by_name(params[:title_search]).order(created_at: :desc)
     else  
       @discussions = []
     end

@@ -4,5 +4,9 @@
 
 import { application } from "./application"
 
+import DebounceController from "./debounce_controller"
+application.register("debounce", DebounceController)
+
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
+

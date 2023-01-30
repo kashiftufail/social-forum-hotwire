@@ -23,6 +23,8 @@ class Discussion < ApplicationRecord
 
   belongs_to :user, default: -> { Current.user }
 
+  scope :filter_by_name, -> (name) { where('name ILIKE ?', "%#{name}%") }
+  
   scope :display_opened_first, -> { order(opened: :desc, updated_at: :desc) }
 
   delegate :name, prefix: :category, to: :category, allow_nil: true   
