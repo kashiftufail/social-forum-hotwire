@@ -90,11 +90,11 @@ class Discussion < ApplicationRecord
   end
 
   def like_dislike_actions(discussion)
-    if discussion.liked?
-      discussion.unliked_by Current.user 
-    else  
-      discussion.liked_by Current.user
-    end    
+    discussion.liked? ? (discussion.unliked_by Current.user) : (discussion.liked_by Current.user)
+      
+    # else  
+      
+    # end    
   end
   
   def liked?
