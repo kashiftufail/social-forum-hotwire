@@ -1,7 +1,9 @@
 <%= turbo_stream_from @discussion%>
 
-<%= render(partial: "discussions/header", locals: { discussion: @discussion }) %>
 
+<div id="like_dislike">
+  <%= render(partial: "discussions/header", locals: { discussion: @discussion }) %>  
+</div>
 
 <div id='articles' class="mt-4">
   <%= render partial: "discussions/articles/article", collection: @articles %>

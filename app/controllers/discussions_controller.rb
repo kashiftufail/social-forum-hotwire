@@ -1,6 +1,6 @@
 class DiscussionsController < ApplicationController
  
-  before_action :set_discussion, only: [:show ,:edit, :destroy, :update]
+  before_action :set_discussion, only: [:show ,:edit, :destroy, :update,:like_dislike]
 
   before_action :authenticate_user!  
 
@@ -15,7 +15,8 @@ class DiscussionsController < ApplicationController
 
   def show
     @pagy , @articles = pagy(@discussion.articles.includes(:user, :rich_text_content).order(created_at: :desc))
-
+    @liked = @discussion.liked?
+    @likes_count = @discussion.likes_count
     @new_article = @discussion.articles.new
   end  
 
@@ -54,6 +55,18 @@ class DiscussionsController < ApplicationController
     redirect_to discussions_path, notice: 'Discussion has removed'
   end
 
+  def like_dislike
+    @discussion.like_dislike_actions(@discussion)
+    @liked = @discussion.liked?
+    @likes_count = @discussion.likes_count
+    
+    render turbo_stream: [
+            turbo_stream.update("like_dislike",
+            partial: "discussions/header",
+            locals: { discussion: @discussion })
+          ]
+  end   
+
   private
 
   def discussion_params
@@ -65,3 +78,4 @@ class DiscussionsController < ApplicationController
   end
 
 end    
+

@@ -1,5 +1,7 @@
 class Discussion < ApplicationRecord
   
+  acts_as_votable
+ 
   validates :name , presence:  true
   
   has_many :articles, dependent: :destroy
@@ -87,5 +89,20 @@ class Discussion < ApplicationRecord
     end
   end
 
+  def like_dislike_actions(discussion)
+    if discussion.liked?
+      discussion.unliked_by Current.user 
+    else  
+      discussion.liked_by Current.user
+    end    
+  end
+  
+  def liked?
+    Current.user.liked? self
+  end  
+
+  def likes_count 
+    self.get_likes.size
+  end  
 
 end

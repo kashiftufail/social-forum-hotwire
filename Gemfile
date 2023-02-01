@@ -82,3 +82,5 @@ gem "devise", "~> 4.8"
 gem "pagy", "~> 6.0"
 
 gem "noticed", "~> 1.6"
+
+gem "acts_as_votable", "~> 0.14.0"
