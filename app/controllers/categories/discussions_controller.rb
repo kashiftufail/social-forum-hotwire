@@ -4,7 +4,8 @@ module Categories
     before_action :set_category
 
     def index
-      @discussions = @category.discussions.display_opened_first
+      @pagy , @discussions = pagy(@category.discussions.display_opened_first)
+
       render 'discussions/index'
     end
 
