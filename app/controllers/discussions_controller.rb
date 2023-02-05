@@ -1,6 +1,6 @@
 class DiscussionsController < ApplicationController
  
-  before_action :set_discussion, only: [:show ,:edit, :destroy, :update,:like_dislike]
+  before_action :set_discussion, only: [:show ,:edit, :destroy, :update,:like_dislike,:vote_up_down]
 
   before_action :authenticate_user!  
 
@@ -17,7 +17,29 @@ class DiscussionsController < ApplicationController
     @pagy , @articles = pagy(@discussion.articles.includes(:user, :rich_text_content).order(created_at: :desc))
     @liked = @discussion.liked?
     @likes_count = @discussion.likes_count
+    @up_votes = @discussion.up_votes
+    @down_votes = @discussion.down_votes    
     @new_article = @discussion.articles.new
+  end  
+
+  def vote_up_down
+    
+    status = params[:status]
+    @discussion.vote_up_down_actions(@discussion,status)
+    
+      @liked = @discussion.liked?
+      @likes_count = @discussion.likes_count
+      @up_votes = @discussion.up_votes
+      @down_votes = @discussion.down_votes
+      
+    
+         
+      render turbo_stream: [
+              turbo_stream.update("like_dislike",
+              partial: "discussions/header",
+              locals: { discussion: @discussion })
+            ]
+    
   end  
 
   def create
@@ -56,15 +78,25 @@ class DiscussionsController < ApplicationController
   end
 
   def like_dislike
-    @discussion.like_dislike_actions(@discussion)
-    @liked = @discussion.liked?
-    @likes_count = @discussion.likes_count
+    # test = @discussion.like_dislike_actions(@discussion)
+    # binding.pry
+    # ppppppppppp
+
+    if @discussion.like_dislike_actions(@discussion)
     
-    render turbo_stream: [
-            turbo_stream.update("like_dislike",
-            partial: "discussions/header",
-            locals: { discussion: @discussion })
-          ]
+      @liked = @discussion.liked?
+      @likes_count = @discussion.likes_count
+      @up_votes = @discussion.up_votes
+      @down_votes = @discussion.down_votes
+      
+      render turbo_stream: [
+              turbo_stream.update("like_dislike",
+              partial: "discussions/header",
+              locals: { discussion: @discussion })
+            ]
+     else
+       render :show, status: :unprocessable_entity
+     end        
   end   
 
   private

@@ -89,20 +89,46 @@ class Discussion < ApplicationRecord
     end
   end
 
-  def like_dislike_actions(discussion)
-    discussion.liked? ? (discussion.unliked_by Current.user) : (discussion.liked_by Current.user)
-      
-    # else  
-      
-    # end    
+  def like_dislike_actions(discussion)   
+    discussion.liked? ? (discussion.unliked_by Current.user , vote_scope: 'like') : (discussion.liked_by Current.user, vote_scope: 'like' )
+  end
+
+  def vote_up_down_actions(discussion,status) 
+   
+    if status == 'vote_up' ||  status == 'no_vote_down'
+      discussion.downvote_from Current.user , vote_scope: 'vote' 
+    elsif status == 'no_vote_up' || status == 'vote_down' 
+      discussion.vote_by voter: Current.user  , vote_scope: 'vote'
+    end  
+    
+  end  
+
+  def voted_up?
+    Current.user.voted_up_on? self , vote_scope: 'vote'
+  end
+  
+  def voted_down?
+    Current.user.voted_down_on? self , vote_scope: 'vote'
   end
   
   def liked?
-    Current.user.liked? self
+    Current.user.liked? self , vote_scope: 'like'
   end  
 
   def likes_count 
-    self.get_likes.size
+    self.get_likes(vote_scope: 'like').size
+  end 
+  
+  def up_votes
+    self.get_upvotes(vote_scope: 'vote').size
+  end
+  
+  def down_votes
+    self.get_downvotes(vote_scope: 'vote').size
   end  
+  
 
 end
+
+
+

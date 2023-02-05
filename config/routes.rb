@@ -12,6 +12,7 @@ Rails.application.routes.draw do
     collection do
       get 'category/:id', to: "categories/discussions#index", as: :category
       get 'like_dislike'
+      post 'vote_up_down' 
     end
 
     resources :notifications, only: :create, module: :discussions
