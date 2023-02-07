@@ -37,7 +37,7 @@
       <% end %>
       </h1>
       
-      <%= form_with url: like_dislike_discussions_path , method: :get do |form| %>
+      <%= form_with url: like_dislike_discussions_path , method: :post do |form| %>
         <%= form.hidden_field :id, value: discussion.id %>
           
         <% if @liked %>

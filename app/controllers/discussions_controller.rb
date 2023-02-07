@@ -21,26 +21,21 @@ class DiscussionsController < ApplicationController
 
   def vote_up_down    
     status = params[:status]
+    respond_to do |format|     
     
-    if @discussion.vote_up_down_actions(@discussion,status)
-      likes_votes_count         
-      render turbo_stream: [
-              turbo_stream.update("like_dislike",
-              partial: "discussions/header",
-              locals: { discussion: @discussion })
-            ]
-    else
-      render :show, status: :unprocessable_entity
-    end          
-    
+      if @discussion.vote_up_down_actions(@discussion,status)
+        likes_votes_count    
+        format.turbo_stream         
+      else
+        render :show, status: :unprocessable_entity
+      end          
+    end  
   end  
 
   def create
     @discussion = Discussion.new(discussion_params)
 
-    respond_to do |format|
-      
-      
+    respond_to do |format|      
       
       if @discussion.save
         format.html { redirect_to @discussion, notice: "Discussion created" }
@@ -71,17 +66,14 @@ class DiscussionsController < ApplicationController
   end
 
   def like_dislike
-    
-    if @discussion.like_dislike_actions(@discussion)    
-      likes_votes_count      
-      render turbo_stream: [
-              turbo_stream.update("like_dislike",
-              partial: "discussions/header",
-              locals: { discussion: @discussion })
-            ]
-     else
-       render :show, status: :unprocessable_entity
-     end        
+    respond_to do |format|     
+      if @discussion.like_dislike_actions(@discussion)    
+        likes_votes_count
+        format.turbo_stream              
+      else
+        render :show, status: :unprocessable_entity
+      end 
+    end         
   end   
 
   private
