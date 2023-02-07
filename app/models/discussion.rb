@@ -93,14 +93,16 @@ class Discussion < ApplicationRecord
     discussion.liked? ? (discussion.unliked_by Current.user , vote_scope: 'like') : (discussion.liked_by Current.user, vote_scope: 'like' )
   end
 
-  def vote_up_down_actions(discussion,status) 
-   
-    if status == 'vote_up' ||  status == 'no_vote_down'
+  def vote_up_down_actions(discussion,status)    
+    if status == 'no_vote_up'   
+      discussion.unliked_by Current.user , vote_scope: 'vote'
+    elsif status == 'vote_up'
+      discussion.vote_by voter: Current.user  , vote_scope: 'vote'      
+    elsif status == 'vote_down' 
       discussion.downvote_from Current.user , vote_scope: 'vote' 
-    elsif status == 'no_vote_up' || status == 'vote_down' 
-      discussion.vote_by voter: Current.user  , vote_scope: 'vote'
-    end  
-    
+    else
+      discussion.undisliked_by Current.user , vote_scope: 'vote'
+    end      
   end  
 
   def voted_up?
