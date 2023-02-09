@@ -1,74 +1,88 @@
 <%= turbo_frame_tag dom_id(discussion) do %>
-  <div class="d-flex align-items-center justify-content-between">
-    <div data-controller="debounce">
-      
-      <h1>
-
-      <%= form_with url: vote_up_down_discussions_path  ,method: :post  do |form| %>
-        <%= form.hidden_field :id, value: discussion.id %>
-        <%= form.hidden_field :status %>  
-       
-          <% if discussion.voted_up? == true %>          
-            <%= button_tag(type: 'submit', id: 'no_vote_up', data: {action: 'click->debounce#vote_status'}, class: 'btn btn-secondary') do %>
-              <i class="bi bi-arrow-up-circle-fill" id = 'no_vote_up' ></i>          
-            <% end %>
-          <% elsif discussion.voted_up? == false %>
-            <%= button_tag(type: 'submit', id: 'vote_up', data: {action: 'click->debounce#vote_status'} ,class: 'btn btn-secondary') do %>
-                <i class="bi bi-arrow-up-circle" id = 'vote_up' ></i>          
-              <% end %> 
-          <% end %>      
-
-         <%= @up_votes - @down_votes %>
-
-          <% if discussion.voted_down? == true %>
-
-            <%= button_tag(type: 'submit', id: 'no_vote_down' , data: {action: 'click->debounce#vote_status'}, class: 'btn btn-secondary') do %>
-              <i class="bi bi-arrow-down-circle-fill" id = 'no_vote_down'></i>          
-            <% end %>
-          <% elsif discussion.voted_down? == false%>
-
-            <%= button_tag(type: 'submit', id: 'vote_down' , data: {action: 'click->debounce#vote_status'} ,class: 'btn btn-secondary') do %>
-              <i class="bi bi-arrow-down-circle"  id = 'vote_down'></i>          
-            <% end %> 
-          <% end %>      
-         <%= discussion.name %><%= @status %>
-           
-      
-      <% end %>
-      </h1>
-      
-      <%= form_with url: like_dislike_discussions_path , method: :post do |form| %>
-        <%= form.hidden_field :id, value: discussion.id %>
-          
-        <% if @liked %>
-        
-          <%= button_tag(type: 'submit', class: 'btn btn-secondary') do %>
-            <i class="bi bi-hand-thumbs-up-fill"></i>  Like         
-          <% end %> <%= @likes_count > 1 ? "You and #{@likes_count - 1} others" : 'You' %> 
-
-        <% else %>
-          <%= button_tag(type: 'submit', class:  'btn btn-secondary') do %>
-            <i class="bi bi-hand-thumbs-up"></i>  Like
   
-          <% end %> <%= @likes_count %>
-        <% end %>    
-        
+  <% likes_votes_count(discussion) %>
+  <div class="d-flex flex-column bd-highlight mb-3" data-controller="debounce">
+  
+    <%= form_with url: vote_up_down_discussions_path  ,method: :post  do |form| %>
+      <%= form.hidden_field :id, value: discussion.id %>
+      <%= form.hidden_field :status %>  
+      
+
+    <div class="p-2 bd-highlight">
+      <% if discussion.voted_up? == true %>          
+        <%= button_tag(type: 'submit', id: 'no_vote_up', data: {action: 'click->debounce#vote_status'}, class: 'btn btn-secondary') do %>
+            <i class="bi bi-arrow-up-circle-fill" id = 'no_vote_up' ></i>          
+        <% end %>
+      <% elsif discussion.voted_up? == false %>
+        <%= button_tag(type: 'submit', id: 'vote_up', data: {action: 'click->debounce#vote_status'} ,class: 'btn btn-secondary') do %>
+            <i class="bi bi-arrow-up-circle" id = 'vote_up' ></i>          
+          <% end %> 
       <% end %>
-      
-      
-      <span class="text-muted fs-6">
-        <% if discussion.opened %>
-          <span class="badge rounded-pill bg-info">Opened</span>
-        <% end %>
-        <% if discussion.closed %>
-          <span class="badge rounded-pill text-danger">Closed</span>
-        <% end %>
-      </span>
     </div>
-    <div>
-      <%= link_to "Edit Discussion", edit_discussion_path(discussion) %> |
-      
-      <%= link_to "Delete Discussion", discussion, method: :delete, data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' } %>
+  
+  
+    <div class="d-flex flex-row bd-highlight justify-content-around">
+      <div class="p-2 bd-highlight"><h2><%= @up_votes - @down_votes %></h2>
+      </div>
+      <div class=" ms-5 bd-highlight flex-fill " ><h1><p class='text-info'><%= discussion.name %></p></h1>
+      </div>
+      <% if admin? %>
+        <div class="p-2 bd-highlight">
+          <%= link_to "Edit Discussion", edit_discussion_path(discussion) %> |
+        
+          <%= link_to "Delete Discussion", discussion, method: :delete, data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' } %>
+        </div>
+      <% end %>  
     </div>
-  </div>
+  
+  
+    <div class="p-2 bd-highlight">
+      <% if discussion.voted_down? == true %>
+
+        <%= button_tag(type: 'submit', id: 'no_vote_down' , data: {action: 'click->debounce#vote_status'}, class: 'btn btn-secondary') do %>
+          <i class="bi bi-arrow-down-circle-fill" id = 'no_vote_down'></i>          
+        <% end %>
+      <% elsif discussion.voted_down? == false%>
+
+        <%= button_tag(type: 'submit', id: 'vote_down' , data: {action: 'click->debounce#vote_status'} ,class: 'btn btn-secondary') do %>
+          <i class="bi bi-arrow-down-circle"  id = 'vote_down'></i>          
+        <% end %> 
+      <% end %>
+    </div>
+  <% end %>
+
+  <%= form_with url: like_dislike_discussions_path , method: :post do |form| %>
+    <%= form.hidden_field :id, value: discussion.id %>
+      
+    <% if @liked %>
+    
+      <%= button_tag(type: 'submit', class: 'btn btn-secondary') do %>
+        <i class="bi bi-hand-thumbs-up-fill"></i>  Like         
+      <% end %> <%= @likes_count > 1 ? "You and #{@likes_count - 1} others" : 'You' %> 
+
+    <% else %>
+      <%= button_tag(type: 'submit', class:  'btn btn-secondary') do %>
+        <i class="bi bi-hand-thumbs-up"></i>  Like
+
+      <% end %> <%= @likes_count %>
+    <% end %>    
+    
+  <% end %>
+  
+      
+  <span class="text-muted fs-6">
+    <% if discussion.opened %>
+      <span class="badge rounded-pill bg-info">Opened</span>
+    <% end %>
+    <% if discussion.closed %>
+      <span class="badge rounded-pill text-danger">Closed</span>
+    <% end %>
+  </span>
+</div>
+
+
+
+
+
+  
 <% end %>

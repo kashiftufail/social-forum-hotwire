@@ -13,9 +13,8 @@ class DiscussionsController < ApplicationController
     @discussion.articles.new
   end
 
-  def show
+  def show    
     @pagy , @articles = pagy(@discussion.articles.includes(:user, :rich_text_content).order(created_at: :desc))
-    likes_votes_count
     @new_article = @discussion.articles.new
   end  
 
@@ -23,11 +22,10 @@ class DiscussionsController < ApplicationController
     status = params[:status]
     respond_to do |format|     
     
-      if @discussion.vote_up_down_actions(@discussion,status)
-        likes_votes_count    
+      if @discussion.vote_up_down_actions(@discussion,status)        
         format.turbo_stream         
       else
-        render :show, status: :unprocessable_entity
+        format.html { redirect_to @discussion, notice: "some problem is there." }
       end          
     end  
   end  
@@ -50,7 +48,7 @@ class DiscussionsController < ApplicationController
 
   def update
     respond_to do |format|
-      if @discussion.update(discussion_params)       
+      if @discussion.update(discussion_params)               
         DiscussionBroadcaster.new(@discussion).broadcast!
 
         format.html { redirect_to @discussion, notice: "Discussion updated" }
@@ -67,11 +65,10 @@ class DiscussionsController < ApplicationController
 
   def like_dislike
     respond_to do |format|     
-      if @discussion.like_dislike_actions(@discussion)    
-        likes_votes_count
+      if @discussion.like_dislike_actions(@discussion)            
         format.turbo_stream              
       else
-        render :show, status: :unprocessable_entity
+        format.html { redirect_to @discussion, notice: "some problem is there." }
       end 
     end         
   end   
@@ -81,13 +78,6 @@ class DiscussionsController < ApplicationController
   def discussion_params
     params.require(:discussion).permit(:name, :category_id, :closed, :opened,articles_attributes: :content)
   end
-
-  def likes_votes_count
-    @liked = @discussion.liked?
-    @likes_count = @discussion.likes_count
-    @up_votes = @discussion.up_votes
-    @down_votes = @discussion.down_votes    
-  end  
 
   def set_discussion
     @discussion = Discussion.find(params[:id])    

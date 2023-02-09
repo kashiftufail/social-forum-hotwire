@@ -1,8 +1,9 @@
 <p style="color: green"><%= notice %></p>
 
-<h1>Categories</h1>
+<h1>Categories</h1> <%= link_to "New category", new_category_path ,class: 'btn btn-primary mb-2' if admin?%>
 
 <div id="categories">
+  Listing categories below
   <% @categories.each do |category| %>
     <%= render category %>
     <p>
@@ -11,4 +12,4 @@
   <% end %>
 </div>
 
-<%= link_to "New category", new_category_path %>
+
