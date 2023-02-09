@@ -6,7 +6,7 @@
 
 <div class="d-flex justify-content-between align-items-center">
   <h1>Discussions</h1>
-    <%= link_to "New discussion", new_discussion_path, class: "btn btn-primary" %>
+    <%= link_to "New discussion", new_discussion_path, class: "btn btn-primary" if admin?%>
 
   
 </div>
@@ -31,7 +31,7 @@
     <% end %>        
     <%= render partial: "discussions/discussion", collection: @discussions%>
     <hr class='mb-4'>
-    <%== pagy_bootstrap_nav(@pagy) %>
+    <%== pagy_bootstrap_nav(@pagy) if @pagy.pages > 1 %>
     
   </div>
 </div>

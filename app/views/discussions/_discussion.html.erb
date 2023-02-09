@@ -6,10 +6,11 @@
 
 
 <div>
+<% if admin? %>
   <%= link_to "Edit Discussion", edit_discussion_path(discussion) %> |
   
   <%= link_to "Delete", discussion, method: :delete, data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' } %>
-
+<% end %>
 
 </div>
 
