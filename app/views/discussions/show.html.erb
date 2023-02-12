@@ -12,7 +12,9 @@
 <%== pagy_bootstrap_nav(@pagy)  if @pagy.pages > 1 %>
 
 <%= turbo_frame_tag "discussion_notification_status" do %>
-  <%= render("discussions/notifications/status", discussion: @discussion, user: Current.user) %>
+  <% unless @discussion.closed %>
+    <%= render("discussions/notifications/status", discussion: @discussion, user: Current.user) %>
+  <% end %>
 <% end %>
 
 <hr class="my-4">
